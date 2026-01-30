@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,54 +17,111 @@ import com.example.todolist.R;
 import com.example.todolist.data.Category;
 import com.example.todolist.data.Task;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+public class TasksAdapter extends ListAdapter<TasksAdapter.Item, RecyclerView.ViewHolder> {
 
-public class TasksAdapter extends ListAdapter<Task, TasksAdapter.TaskViewHolder> {
+    private static final int TYPE_CATEGORY_HEADER = 0;
+    private static final int TYPE_TASK = 1;
 
-    private OnTaskClickListener listener;
-    private Map<Integer, String> categoryMap = new HashMap<>();
+    private OnItemClickListener listener;
 
-    public interface OnTaskClickListener {
+    public interface OnItemClickListener {
         void onCheckChanged(Task task, boolean isChecked);
+        void onCategoryDelete(Category category);
+        void onCategoryRename(Category category);
     }
 
-    public TasksAdapter(OnTaskClickListener listener) {
+    public interface Item {
+        int getType();
+        long getId();
+    }
+
+    public static class CategoryHeaderItem implements Item {
+        public Category category;
+        public CategoryHeaderItem(Category category) { this.category = category; }
+        @Override public int getType() { return TYPE_CATEGORY_HEADER; }
+        @Override public long getId() { return category.id * -1L; } // Negative IDs for headers to avoid collision
+    }
+
+    public static class TaskItem implements Item {
+        public Task task;
+        public TaskItem(Task task) { this.task = task; }
+        @Override public int getType() { return TYPE_TASK; }
+        @Override public long getId() { return task.id; }
+    }
+
+    public TasksAdapter(OnItemClickListener listener) {
         super(new DiffCallback());
         this.listener = listener;
     }
 
-    public void setCategories(List<Category> categories) {
-        categoryMap.clear();
-        if (categories != null) {
-            for (Category cat : categories) {
-                categoryMap.put(cat.id, cat.name);
-            }
-        }
-        notifyDataSetChanged();
+    @Override
+    public int getItemViewType(int position) {
+        return getItem(position).getType();
     }
 
     @NonNull
     @Override
-    public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task, parent, false);
-        return new TaskViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == TYPE_CATEGORY_HEADER) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category_header, parent, false);
+            return new HeaderViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task, parent, false);
+            return new TaskViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
-        Task task = getItem(position);
-        holder.bind(task);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof HeaderViewHolder) {
+            ((HeaderViewHolder) holder).bind(((CategoryHeaderItem) getItem(position)).category);
+        } else if (holder instanceof TaskViewHolder) {
+            ((TaskViewHolder) holder).bind(((TaskItem) getItem(position)).task);
+        }
+    }
+
+    class HeaderViewHolder extends RecyclerView.ViewHolder {
+        private TextView nameText;
+        private ImageView deleteIcon;
+        private ImageView renameIcon;
+
+        public HeaderViewHolder(@NonNull View itemView) {
+            super(itemView);
+            nameText = itemView.findViewById(R.id.text_header_name);
+            deleteIcon = itemView.findViewById(R.id.image_delete);
+            renameIcon = itemView.findViewById(R.id.image_rename);
+
+            deleteIcon.setOnClickListener(v -> {
+                int pos = getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
+                    CategoryHeaderItem item = (CategoryHeaderItem) getItem(pos);
+                    listener.onCategoryDelete(item.category);
+                }
+            });
+
+            renameIcon.setOnClickListener(v -> {
+                int pos = getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
+                    CategoryHeaderItem item = (CategoryHeaderItem) getItem(pos);
+                    listener.onCategoryRename(item.category);
+                }
+            });
+        }
+
+        public void bind(Category category) {
+            nameText.setText(category.name);
+        }
     }
 
     class TaskViewHolder extends RecyclerView.ViewHolder {
         private TextView nameText;
         private TextView categoryText;
         private CheckBox checkBox;
+        private View rootView;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
+            rootView = itemView;
             nameText = itemView.findViewById(R.id.text_task_name);
             categoryText = itemView.findViewById(R.id.text_category);
             checkBox = itemView.findViewById(R.id.checkBox_done);
@@ -71,7 +129,8 @@ public class TasksAdapter extends ListAdapter<Task, TasksAdapter.TaskViewHolder>
             checkBox.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && listener != null) {
-                    listener.onCheckChanged(getItem(position), checkBox.isChecked());
+                    TaskItem item = (TaskItem) getItem(position);
+                    listener.onCheckChanged(item.task, checkBox.isChecked());
                 }
             });
         }
@@ -79,29 +138,38 @@ public class TasksAdapter extends ListAdapter<Task, TasksAdapter.TaskViewHolder>
         public void bind(Task task) {
             nameText.setText(task.name);
             checkBox.setChecked(task.isDone);
-
-            String catName = categoryMap.get(task.categoryId);
-            categoryText.setText(catName != null ? catName : "Unknown");
+            categoryText.setVisibility(View.GONE); // No longer needed as we have headers
 
             if (task.isDone) {
                 nameText.setPaintFlags(nameText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                rootView.setAlpha(0.5f); // Lighter when checked
             } else {
                 nameText.setPaintFlags(nameText.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                rootView.setAlpha(1.0f);
             }
         }
     }
 
-    static class DiffCallback extends DiffUtil.ItemCallback<Task> {
+    static class DiffCallback extends DiffUtil.ItemCallback<Item> {
         @Override
-        public boolean areItemsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
-            return oldItem.id == newItem.id;
+        public boolean areItemsTheSame(@NonNull Item oldItem, @NonNull Item newItem) {
+            if (oldItem.getType() != newItem.getType()) return false;
+            return oldItem.getId() == newItem.getId();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
-            return oldItem.name.equals(newItem.name) &&
-                    oldItem.isDone == newItem.isDone &&
-                    oldItem.categoryId == newItem.categoryId;
+        public boolean areContentsTheSame(@NonNull Item oldItem, @NonNull Item newItem) {
+            if (oldItem instanceof CategoryHeaderItem && newItem instanceof CategoryHeaderItem) {
+                return ((CategoryHeaderItem) oldItem).category.name.equals(((CategoryHeaderItem) newItem).category.name);
+            }
+            if (oldItem instanceof TaskItem && newItem instanceof TaskItem) {
+                Task t1 = ((TaskItem) oldItem).task;
+                Task t2 = ((TaskItem) newItem).task;
+                return t1.name.equals(t2.name) &&
+                        t1.isDone == t2.isDone &&
+                        t1.categoryId == t2.categoryId;
+            }
+            return false;
         }
     }
 }

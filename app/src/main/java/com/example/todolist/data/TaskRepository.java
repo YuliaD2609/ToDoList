@@ -52,6 +52,18 @@ public class TaskRepository {
         });
     }
 
+    public void updateCategory(Category category) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mCategoryDao.update(category);
+        });
+    }
+
+    public void deleteCategory(Category category) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mCategoryDao.delete(category);
+        });
+    }
+
     public void deleteOldCompletedTasks() {
         long cutoff = System.currentTimeMillis() - (24 * 60 * 60 * 1000); // 24 hours ago
         AppDatabase.databaseWriteExecutor.execute(() -> {

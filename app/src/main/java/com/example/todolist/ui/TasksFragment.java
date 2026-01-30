@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,7 +26,7 @@ import com.example.todolist.data.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TasksFragment extends Fragment {
+public class TasksFragment extends Fragment implements TasksAdapter.OnItemClickListener {
 
     private MainViewModel mViewModel;
     private TasksAdapter mAdapter;
@@ -47,28 +48,63 @@ public class TasksFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_tasks);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mAdapter = new TasksAdapter((task, isChecked) -> {
-            task.isDone = isChecked;
-            if (isChecked) {
-                task.timestampDone = System.currentTimeMillis();
-            } else {
-                task.timestampDone = 0;
-            }
-            mViewModel.update(task);
-        });
+        mAdapter = new TasksAdapter(this);
         recyclerView.setAdapter(mAdapter);
 
+        // Keep track of categories for the "Add Task" dialog spinner
         mViewModel.getAllCategories().observe(getViewLifecycleOwner(), categories -> {
             mCategories = categories;
-            mAdapter.setCategories(categories);
         });
 
-        mViewModel.getAllTasks().observe(getViewLifecycleOwner(), tasks -> {
-            mAdapter.submitList(tasks);
+        // Observe the combined list (Headers + Items)
+        mViewModel.getCombinedItems().observe(getViewLifecycleOwner(), items -> {
+            mAdapter.submitList(items);
         });
 
         view.findViewById(R.id.fab_add_task).setOnClickListener(v -> showAddTaskDialog());
         view.findViewById(R.id.fab_add_category).setOnClickListener(v -> showAddCategoryDialog());
+    }
+
+    @Override
+    public void onCheckChanged(Task task, boolean isChecked) {
+        task.isDone = isChecked;
+        if (isChecked) {
+            task.timestampDone = System.currentTimeMillis();
+        } else {
+            task.timestampDone = 0;
+        }
+        mViewModel.update(task);
+    }
+
+    @Override
+    public void onCategoryDelete(Category category) {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Delete Category")
+                .setMessage("Are you sure you want to delete '" + category.name + "'? All tasks in this category will be deleted.")
+                .setPositiveButton("Delete", (dialog, which) -> mViewModel.deleteCategory(category))
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    @Override
+    public void onCategoryRename(Category category) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Rename Category");
+
+        final EditText input = new EditText(getContext());
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setText(category.name);
+        builder.setView(input);
+
+        builder.setPositiveButton("Save", (dialog, which) -> {
+            String newName = input.getText().toString().trim();
+            if (!newName.isEmpty()) {
+                mViewModel.renameCategory(category, newName);
+            }
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+        builder.show();
     }
 
     private void showAddTaskDialog() {

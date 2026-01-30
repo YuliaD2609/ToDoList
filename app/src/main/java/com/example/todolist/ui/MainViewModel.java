@@ -1,27 +1,28 @@
 package com.example.todolist.ui;
 
-import static androidx.lifecycle.AndroidViewModel_androidKt.getApplication;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 
 import com.example.todolist.data.Category;
 import com.example.todolist.data.Task;
 import com.example.todolist.data.TaskRepository;
 import com.example.todolist.notification.AlarmScheduler;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import static androidx.lifecycle.AndroidViewModel_androidKt.getApplication;
 
 public class MainViewModel extends AndroidViewModel {
     private TaskRepository mRepository;
     private LiveData<List<Task>> mAllTasks;
     private LiveData<List<Category>> mAllCategories;
+    
+    // Combined list for UI
+    private MediatorLiveData<List<TasksAdapter.Item>> mCombinedItems = new MediatorLiveData<>();
 
     public MainViewModel(Application application) {
         super(application);
@@ -31,6 +32,39 @@ public class MainViewModel extends AndroidViewModel {
 
         // Check for old tasks cleanup on init
         mRepository.deleteOldCompletedTasks();
+        
+        // Merge Logic
+        mCombinedItems.addSource(mAllCategories, categories -> combineData(categories, mAllTasks.getValue()));
+        mCombinedItems.addSource(mAllTasks, tasks -> combineData(mAllCategories.getValue(), tasks));
+    }
+
+    private void combineData(List<Category> categories, List<Task> tasks) {
+        if (categories == null || tasks == null) {
+            return; 
+        }
+
+        List<TasksAdapter.Item> items = new ArrayList<>();
+        
+        for (Category cat : categories) {
+            // Add Header
+            items.add(new TasksAdapter.CategoryHeaderItem(cat));
+            
+            // Add Tasks for this Category
+            for (Task t : tasks) {
+                if (t.categoryId == cat.id) {
+                    items.add(new TasksAdapter.TaskItem(t));
+                }
+            }
+        }
+        
+        // Handle tasks with unknown categories (optional, but good practice)
+        // For now, only showing categorized tasks as per design "Category -> Line -> Tasks"
+        
+        mCombinedItems.setValue(items);
+    }
+
+    public LiveData<List<TasksAdapter.Item>> getCombinedItems() {
+        return mCombinedItems;
     }
 
     public LiveData<List<Task>> getAllTasks() {
@@ -55,6 +89,21 @@ public class MainViewModel extends AndroidViewModel {
 
     public void insertCategory(Category category) {
         mRepository.insertCategory(category);
+    }
+    
+    public void deleteCategory(Category category) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            // This relies on the DAO access, ideally Repository exposes this
+            // But for quick implementation we can use the repository to get DB or add method to Repo
+            // Let's add method to Repo in next step or use what we available.
+            // Wait, TaskRepository has mCategoryDao private.
+             mRepository.deleteCategory(category);
+        });
+    }
+
+    public void renameCategory(Category category, String newName) {
+         category.name = newName;
+         mRepository.updateCategory(category);
     }
 
     public void scheduleNotification(int hour, int minute, boolean enable) {
