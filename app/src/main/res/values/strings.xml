@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">ToDo List</string>
+    <string name="title_tasks">Tasks</string>
+    <string name="title_settings">Settings</string>
+    <string name="notification_message">Guarda le cose da fare</string>
+    <string name="notification_channel_name">Daily Reminders</string>
+    <string name="add_task">Add Task</string>
+    <string name="add_category">Add Category</string>
+    <string name="hint_task_name">Task Name</string>
+    <string name="hint_category_name">Category Name</string>
+    <string name="urgent">Urgent</string>
+    <string name="long_term">Long Term</string>
+    <string name="short_term">Short Term</string>
+    <string name="shopping">Shopping</string>
+    <string name="dialog_add_category_title">New Category</string>
+    <string name="dialog_add_task_title">New Task</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="setting_notifications">Notifications</string>
+    <string name="notify_9">Notify at 09:00</string>
+    <string name="notify_12">Notify at 12:00</string>
+    <string name="notify_18">Notify at 18:00</string>
+</resources>
