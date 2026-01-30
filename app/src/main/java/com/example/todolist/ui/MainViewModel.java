@@ -1,12 +1,13 @@
 package com.example.todolist.ui;
 
+import static androidx.lifecycle.AndroidViewModel_androidKt.getApplication;
+
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.preference.PreferenceManager; // Requires dependency or use Context.getSharedPreferences
 
 import com.example.todolist.data.Category;
 import com.example.todolist.data.Task;
@@ -14,6 +15,8 @@ import com.example.todolist.data.TaskRepository;
 import com.example.todolist.notification.AlarmScheduler;
 
 import java.util.List;
+
+import static androidx.lifecycle.AndroidViewModel_androidKt.getApplication;
 
 public class MainViewModel extends AndroidViewModel {
     private TaskRepository mRepository;
