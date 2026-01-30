@@ -12,22 +12,18 @@
         android:textAppearance="?attr/textAppearanceHeadlineSmall"
         android:layout_marginBottom="16dp" />
 
-    <CheckBox
-        android:id="@+id/check_notify_9"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_notification_times"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/notify_9" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="16dp" />
 
-    <CheckBox
-        android:id="@+id/check_notify_12"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/button_add_time"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/notify_12" />
-
-    <CheckBox
-        android:id="@+id/check_notify_18"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/notify_18" />
+        android:layout_gravity="center_horizontal"
+        android:text="Add Notification Time" />
 
 </LinearLayout>
