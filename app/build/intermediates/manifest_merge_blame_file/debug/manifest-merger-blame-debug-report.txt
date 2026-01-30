@@ -127,43 +127,56 @@
 71-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:31:17-49
 72        </provider>
 73
-74        <receiver
-74-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:34:9-52:20
-75            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-75-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:35:13-76
-76            android:directBootAware="false"
-76-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:36:13-44
-77            android:enabled="true"
-77-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:37:13-35
-78            android:exported="true"
-78-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:38:13-36
-79            android:permission="android.permission.DUMP" >
-79-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:39:13-57
-80            <intent-filter>
-80-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:40:13-42:29
-81                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-81-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:17-91
-81-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:25-88
-82            </intent-filter>
-83            <intent-filter>
-83-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:43:13-45:29
-84                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-84-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:17-85
-84-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:25-82
-85            </intent-filter>
-86            <intent-filter>
-86-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:46:13-48:29
-87                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-87-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:17-88
-87-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:25-85
-88            </intent-filter>
-89            <intent-filter>
-89-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:49:13-51:29
-90                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-90-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:17-95
-90-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:25-92
-91            </intent-filter>
-92        </receiver>
-93    </application>
-94
-95</manifest>
+74        <uses-library
+74-->[androidx.window:window:1.0.0] C:\Users\yulia\.gradle\caches\transforms-4\49ded99c116620daa06b330e4ec24785\transformed\window-1.0.0\AndroidManifest.xml:25:9-27:40
+75            android:name="androidx.window.extensions"
+75-->[androidx.window:window:1.0.0] C:\Users\yulia\.gradle\caches\transforms-4\49ded99c116620daa06b330e4ec24785\transformed\window-1.0.0\AndroidManifest.xml:26:13-54
+76            android:required="false" />
+76-->[androidx.window:window:1.0.0] C:\Users\yulia\.gradle\caches\transforms-4\49ded99c116620daa06b330e4ec24785\transformed\window-1.0.0\AndroidManifest.xml:27:13-37
+77        <uses-library
+77-->[androidx.window:window:1.0.0] C:\Users\yulia\.gradle\caches\transforms-4\49ded99c116620daa06b330e4ec24785\transformed\window-1.0.0\AndroidManifest.xml:28:9-30:40
+78            android:name="androidx.window.sidecar"
+78-->[androidx.window:window:1.0.0] C:\Users\yulia\.gradle\caches\transforms-4\49ded99c116620daa06b330e4ec24785\transformed\window-1.0.0\AndroidManifest.xml:29:13-51
+79            android:required="false" />
+79-->[androidx.window:window:1.0.0] C:\Users\yulia\.gradle\caches\transforms-4\49ded99c116620daa06b330e4ec24785\transformed\window-1.0.0\AndroidManifest.xml:30:13-37
+80
+81        <receiver
+81-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:34:9-52:20
+82            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+82-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:35:13-76
+83            android:directBootAware="false"
+83-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:36:13-44
+84            android:enabled="true"
+84-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:37:13-35
+85            android:exported="true"
+85-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:38:13-36
+86            android:permission="android.permission.DUMP" >
+86-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:39:13-57
+87            <intent-filter>
+87-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:40:13-42:29
+88                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+88-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:17-91
+88-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:25-88
+89            </intent-filter>
+90            <intent-filter>
+90-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:43:13-45:29
+91                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+91-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:17-85
+91-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:25-82
+92            </intent-filter>
+93            <intent-filter>
+93-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:46:13-48:29
+94                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+94-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:17-88
+94-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:25-85
+95            </intent-filter>
+96            <intent-filter>
+96-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:49:13-51:29
+97                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+97-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:17-95
+97-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\yulia\.gradle\caches\transforms-4\ee500109eea714ca2ca5e57357691176\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:25-92
+98            </intent-filter>
+99        </receiver>
+100    </application>
+101
+102</manifest>
