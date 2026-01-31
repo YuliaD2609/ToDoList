@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,6 +50,29 @@ public class SettingsFragment extends Fragment implements NotificationTimesAdapt
         });
 
         view.findViewById(R.id.button_add_time).setOnClickListener(v -> showTimePicker());
+        
+        // Dark Mode Toggle
+        ImageButton toggleTheme = view.findViewById(R.id.button_toggle_theme);
+        updateThemeIcon(toggleTheme);
+        
+        toggleTheme.setOnClickListener(v -> {
+            int currentMode = AppCompatDelegate.getDefaultNightMode();
+            if (currentMode == AppCompatDelegate.MODE_NIGHT_YES) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
+            updateThemeIcon(toggleTheme);
+        });
+    }
+
+    private void updateThemeIcon(ImageButton button) {
+        int currentMode = AppCompatDelegate.getDefaultNightMode();
+        if (currentMode == AppCompatDelegate.MODE_NIGHT_YES) {
+            button.setImageResource(android.R.drawable.btn_star_big_on);
+        } else {
+            button.setImageResource(android.R.drawable.btn_star_big_off);
+        }
     }
 
     private void showTimePicker() {

@@ -63,10 +63,21 @@ public class MainViewModel extends AndroidViewModel {
         List<TasksAdapter.Item> items = new ArrayList<>();
         
         for (Category cat : categories) {
-            items.add(new TasksAdapter.CategoryHeaderItem(cat));
+            // Count tasks for this category
+            int count = 0;
             for (Task t : tasks) {
                 if (t.categoryId == cat.id) {
-                    items.add(new TasksAdapter.TaskItem(t));
+                    count++;
+                }
+            }
+            
+            // Only add Header and Tasks if there are tasks (Hide Empty Categories)
+            if (count > 0) {
+                items.add(new TasksAdapter.CategoryHeaderItem(cat));
+                for (Task t : tasks) {
+                    if (t.categoryId == cat.id) {
+                        items.add(new TasksAdapter.TaskItem(t));
+                    }
                 }
             }
         }

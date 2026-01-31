@@ -28,6 +28,7 @@ public class TasksAdapter extends ListAdapter<TasksAdapter.Item, RecyclerView.Vi
         void onCheckChanged(Task task, boolean isChecked);
         void onCategoryDelete(Category category);
         void onCategoryRename(Category category);
+        void onTaskDelete(Task task);
     }
 
     public interface Item {
@@ -117,6 +118,7 @@ public class TasksAdapter extends ListAdapter<TasksAdapter.Item, RecyclerView.Vi
         private TextView nameText;
         private TextView categoryText;
         private CheckBox checkBox;
+        private ImageView deleteButton;
         private View rootView;
 
         public TaskViewHolder(@NonNull View itemView) {
@@ -125,12 +127,21 @@ public class TasksAdapter extends ListAdapter<TasksAdapter.Item, RecyclerView.Vi
             nameText = itemView.findViewById(R.id.text_task_name);
             categoryText = itemView.findViewById(R.id.text_category);
             checkBox = itemView.findViewById(R.id.checkBox_done);
+            deleteButton = itemView.findViewById(R.id.image_delete_task);
 
             checkBox.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && listener != null) {
                     TaskItem item = (TaskItem) getItem(position);
                     listener.onCheckChanged(item.task, checkBox.isChecked());
+                }
+            });
+
+            deleteButton.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && listener != null) {
+                    TaskItem item = (TaskItem) getItem(position);
+                    listener.onTaskDelete(item.task);
                 }
             });
         }

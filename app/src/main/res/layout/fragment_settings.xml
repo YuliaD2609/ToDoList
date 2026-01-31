@@ -5,12 +5,29 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/setting_notifications"
-        android:textAppearance="?attr/textAppearanceHeadlineSmall"
-        android:layout_marginBottom="16dp" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/setting_notifications"
+            android:textAppearance="?attr/textAppearanceHeadlineSmall" />
+
+        <ImageButton
+            android:id="@+id/button_toggle_theme"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_menu_day"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Toggle Dark Mode"
+            android:scaleType="centerInside" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_notification_times"

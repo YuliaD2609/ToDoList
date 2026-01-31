@@ -77,6 +77,16 @@ public class TasksFragment extends Fragment implements TasksAdapter.OnItemClickL
     }
 
     @Override
+    public void onTaskDelete(Task task) {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Delete Task")
+                .setMessage("Are you sure you want to delete '" + task.name + "'?")
+                .setPositiveButton("Delete", (dialog, which) -> mViewModel.delete(task))
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    @Override
     public void onCategoryDelete(Category category) {
         new AlertDialog.Builder(getContext())
                 .setTitle("Delete Category")
