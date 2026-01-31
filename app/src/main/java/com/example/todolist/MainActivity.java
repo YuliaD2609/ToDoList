@@ -10,6 +10,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.todolist.ui.OnAddActionListener;
 import com.example.todolist.ui.SettingsFragment;
 import com.example.todolist.ui.TasksFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -29,9 +30,17 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnItemSelectedListener(item -> {
-            Fragment selectedFragment = null;
             int itemId = item.getItemId();
 
+            if (itemId == R.id.navigation_add) {
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                if (currentFragment instanceof OnAddActionListener) {
+                    ((OnAddActionListener) currentFragment).onAddAction();
+                }
+                return false; // Don't select the item
+            }
+
+            Fragment selectedFragment = null;
             if (itemId == R.id.navigation_tasks) {
                 selectedFragment = new TasksFragment();
             } else if (itemId == R.id.navigation_settings) {
@@ -42,8 +51,9 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, selectedFragment)
                         .commit();
+                return true;
             }
-            return true;
+            return false;
         });
 
         // Set default selection

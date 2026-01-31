@@ -5,6 +5,10 @@
         android:icon="@android:drawable/ic_menu_agenda"
         android:title="@string/title_tasks" />
     <item
+        android:id="@+id/navigation_add"
+        android:icon="@android:drawable/ic_input_add"
+        android:title="Add" />
+    <item
         android:id="@+id/navigation_settings"
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="@string/title_settings" />

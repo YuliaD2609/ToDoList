@@ -20,7 +20,7 @@ import com.example.todolist.data.NotificationTime;
 
 import java.util.Calendar;
 
-public class SettingsFragment extends Fragment implements NotificationTimesAdapter.OnTimeInteractionListener {
+public class SettingsFragment extends Fragment implements NotificationTimesAdapter.OnTimeInteractionListener, OnAddActionListener {
 
     private MainViewModel mViewModel;
     private NotificationTimesAdapter mAdapter;
@@ -49,8 +49,6 @@ public class SettingsFragment extends Fragment implements NotificationTimesAdapt
             mAdapter.submitList(new java.util.ArrayList<>(list)); // Submit copy to ensure diff callback runs
         });
 
-        view.findViewById(R.id.fab_add_time).setOnClickListener(v -> showTimePicker());
-        
         // Dark Mode Toggle
         ImageButton toggleTheme = view.findViewById(R.id.button_toggle_theme);
         updateThemeIcon(toggleTheme);
@@ -64,6 +62,11 @@ public class SettingsFragment extends Fragment implements NotificationTimesAdapt
             }
             updateThemeIcon(toggleTheme);
         });
+    }
+
+    @Override
+    public void onAddAction() {
+        showTimePicker();
     }
 
     private void updateThemeIcon(ImageButton button) {

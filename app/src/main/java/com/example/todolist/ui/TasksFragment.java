@@ -26,7 +26,7 @@ import com.example.todolist.data.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TasksFragment extends Fragment implements TasksAdapter.OnItemClickListener {
+public class TasksFragment extends Fragment implements TasksAdapter.OnItemClickListener, OnAddActionListener {
 
     private MainViewModel mViewModel;
     private TasksAdapter mAdapter;
@@ -60,27 +60,22 @@ public class TasksFragment extends Fragment implements TasksAdapter.OnItemClickL
         mViewModel.getCombinedItems().observe(getViewLifecycleOwner(), items -> {
             mAdapter.submitList(items);
         });
-
-        view.findViewById(R.id.fab_add).setOnClickListener(v -> showAddOptions(v));
     }
 
-    private void showAddOptions(View fab) {
-        View anchor = ((View) fab.getParent()).findViewById(R.id.menu_anchor);
-        android.widget.PopupMenu popup = new android.widget.PopupMenu(getContext(), anchor, android.view.Gravity.TOP);
-        popup.getMenu().add(0, 1, 0, "Add Task");
-        popup.getMenu().add(0, 2, 0, "Add Category");
-        
-        popup.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == 1) {
-                showAddTaskDialog();
-                return true;
-            } else if (item.getItemId() == 2) {
-                showAddCategoryDialog();
-                return true;
-            }
-            return false;
-        });
-        popup.show();
+    @Override
+    public void onAddAction() {
+        // Show choice dialog
+        String[] options = {"Add Task", "Add Category"};
+        new AlertDialog.Builder(getContext())
+                .setTitle("Create New")
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        showAddTaskDialog();
+                    } else if (which == 1) {
+                        showAddCategoryDialog();
+                    }
+                })
+                .show();
     }
 
     @Override
