@@ -49,7 +49,7 @@ public class SettingsFragment extends Fragment implements NotificationTimesAdapt
             mAdapter.submitList(new java.util.ArrayList<>(list)); // Submit copy to ensure diff callback runs
         });
 
-        view.findViewById(R.id.button_add_time).setOnClickListener(v -> showTimePicker());
+        view.findViewById(R.id.fab_add_time).setOnClickListener(v -> showTimePicker());
         
         // Dark Mode Toggle
         ImageButton toggleTheme = view.findViewById(R.id.button_toggle_theme);
