@@ -42,6 +42,17 @@ public class NotificationReceiver extends BroadcastReceiver {
                 Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
             notificationManager.notify((int) System.currentTimeMillis(), builder.build());
         }
+        
+        // Reschedule next alarm
+        int hour = intent.getIntExtra("hour", -1);
+        int minute = intent.getIntExtra("minute", -1);
+        int requestCode = intent.getIntExtra("requestCode", -1);
+        
+        if (hour != -1 && minute != -1 && requestCode != -1) {
+             // Re-verify if this alarm is still desired (optional but good)
+             // For now, simply rescheduling:
+            AlarmScheduler.scheduleAlarm(context, hour, minute, requestCode);
+        }
     }
 
     private void createNotificationChannel(Context context) {

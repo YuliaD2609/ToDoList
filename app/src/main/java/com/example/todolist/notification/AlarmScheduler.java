@@ -13,6 +13,10 @@ public class AlarmScheduler {
     public static void scheduleAlarm(Context context, int hour, int minute, int requestCode) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, NotificationReceiver.class);
+        intent.putExtra("hour", hour);
+        intent.putExtra("minute", minute);
+        intent.putExtra("requestCode", requestCode);
+        
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
@@ -27,10 +31,9 @@ public class AlarmScheduler {
 
         if (alarmManager != null) {
             try {
-                // Using setExactAndAllowWhileIdle implies permission SCHEDULE_EXACT_ALARM
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                        AlarmManager.INTERVAL_DAY, pendingIntent);
-                Log.d("AlarmScheduler", "Scheduled alarm for " + hour + ":" + minute);
+                // setExactAndAllowWhileIdle ensures it fires even in Doze mode
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                Log.d("AlarmScheduler", "Scheduled exact alarm for " + hour + ":" + minute);
             } catch (SecurityException e) {
                 Log.e("AlarmScheduler", "Permission missing for exact alarm", e);
             }
