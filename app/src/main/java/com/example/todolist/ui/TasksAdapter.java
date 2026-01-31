@@ -116,7 +116,6 @@ public class TasksAdapter extends ListAdapter<TasksAdapter.Item, RecyclerView.Vi
 
     class TaskViewHolder extends RecyclerView.ViewHolder {
         private TextView nameText;
-        private TextView categoryText;
         private CheckBox checkBox;
         private ImageView deleteButton;
         private View rootView;
@@ -125,7 +124,6 @@ public class TasksAdapter extends ListAdapter<TasksAdapter.Item, RecyclerView.Vi
             super(itemView);
             rootView = itemView;
             nameText = itemView.findViewById(R.id.text_task_name);
-            categoryText = itemView.findViewById(R.id.text_category);
             checkBox = itemView.findViewById(R.id.checkBox_done);
             deleteButton = itemView.findViewById(R.id.image_delete_task);
 
@@ -149,7 +147,6 @@ public class TasksAdapter extends ListAdapter<TasksAdapter.Item, RecyclerView.Vi
         public void bind(Task task) {
             nameText.setText(task.name);
             checkBox.setChecked(task.isDone);
-            categoryText.setVisibility(View.GONE); // No longer needed as we have headers
 
             if (task.isDone) {
                 nameText.setPaintFlags(nameText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
