@@ -65,7 +65,7 @@ public class TasksFragment extends Fragment implements TasksAdapter.OnItemClickL
     }
 
     private void showAddOptions(View anchor) {
-        android.widget.PopupMenu popup = new android.widget.PopupMenu(getContext(), anchor);
+        android.widget.PopupMenu popup = new android.widget.PopupMenu(getContext(), anchor, android.view.Gravity.TOP | android.view.Gravity.END);
         popup.getMenu().add(0, 1, 0, "Add Task");
         popup.getMenu().add(0, 2, 0, "Add Category");
         
