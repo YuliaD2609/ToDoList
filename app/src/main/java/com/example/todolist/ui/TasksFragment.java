@@ -61,6 +61,9 @@ public class TasksFragment extends Fragment implements TasksAdapter.OnItemClickL
             mAdapter.submitList(items);
         });
 
+        view.findViewById(R.id.fab_add).setOnClickListener(v -> showAddOptions(v));
+    }
+
     private void showAddOptions(View fab) {
         View anchor = ((View) fab.getParent()).findViewById(R.id.menu_anchor);
         android.widget.PopupMenu popup = new android.widget.PopupMenu(getContext(), anchor, android.view.Gravity.TOP);
