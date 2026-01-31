@@ -61,8 +61,25 @@ public class TasksFragment extends Fragment implements TasksAdapter.OnItemClickL
             mAdapter.submitList(items);
         });
 
-        view.findViewById(R.id.fab_add_task).setOnClickListener(v -> showAddTaskDialog());
-        view.findViewById(R.id.fab_add_category).setOnClickListener(v -> showAddCategoryDialog());
+        view.findViewById(R.id.fab_add).setOnClickListener(v -> showAddOptions(v));
+    }
+
+    private void showAddOptions(View anchor) {
+        android.widget.PopupMenu popup = new android.widget.PopupMenu(getContext(), anchor);
+        popup.getMenu().add(0, 1, 0, "Add Task");
+        popup.getMenu().add(0, 2, 0, "Add Category");
+        
+        popup.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == 1) {
+                showAddTaskDialog();
+                return true;
+            } else if (item.getItemId() == 2) {
+                showAddCategoryDialog();
+                return true;
+            }
+            return false;
+        });
+        popup.show();
     }
 
     @Override
